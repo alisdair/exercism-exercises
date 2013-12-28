@@ -1,18 +1,17 @@
 module WordCount (wordCount) where
 
 import Data.List (sort, group)
-import Data.Map (Map, fromList)
+import qualified Data.Map.Strict as Map
 import Data.Char
 
 normalise :: String -> String
 normalise = map go
     where
         go c
-            | isAlpha c = toLower c
-            | isDigit c = c
-            | otherwise = ' '
+            | isAlphaNum c = toLower c
+            | otherwise    = ' '
 
-wordCount :: String -> Map String Int
-wordCount = fromList . map count . group . sort . words . normalise
+wordCount :: String -> Map.Map String Int
+wordCount = Map.fromListWith (+) . map go . words . normalise
     where
-        count x = (head x, length x)
+        go x = (x, 1)
