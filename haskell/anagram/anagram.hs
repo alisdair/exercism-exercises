@@ -9,5 +9,4 @@ normalise = sort . map toLower
 anagramsFor :: String -> [String] -> [String]
 anagramsFor s = filter go
   where
-    ns   = normalise s
-    go x = s /= x && ns == normalise x
+    go x = s /= x && normalise s == normalise x
