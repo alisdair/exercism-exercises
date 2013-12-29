@@ -11,12 +11,15 @@ verse 0 = unlines [wall 0,
 verse n = unlines [wall n, takeDown n]
 
 wall :: Int -> String
-wall n = (ofBeer s) ++ ", " ++ map toLower s ++ " of beer."
+wall n = (ofBeer s) ++ ", " ++ lowerCase s ++ " of beer."
   where
     s = bottles n
 
 ofBeer :: String -> String
 ofBeer s = s ++ " of beer on the wall"
+
+lowerCase :: String -> String
+lowerCase = map toLower
 
 bottles :: Int -> String
 bottles 0 = "No more bottles"
@@ -25,7 +28,7 @@ bottles n = show n ++ " bottles"
 
 takeDown :: Int -> String
 takeDown n = "Take " ++ one n ++ " down and pass it around, " ++
-  ofBeer (map toLower . bottles $ n - 1) ++ "."
+  ofBeer (lowerCase . bottles $ n - 1) ++ "."
 
 one :: Int -> String
 one 1 = "it"
