@@ -1,9 +1,9 @@
 module Beer (sing, verse) where
 
-import Data.Char (toLower)
+import Data.Char (toUpper)
 
 sing :: Int -> Int -> String
-sing x y = unlines . reverse . map verse $ [y..x]
+sing x y = unlines . map verse $ [x, x-1 .. y]
 
 verse :: Int -> String
 verse 0 = unlines [wall 0,
@@ -11,24 +11,24 @@ verse 0 = unlines [wall 0,
 verse n = unlines [wall n, takeDown n]
 
 wall :: Int -> String
-wall n = (ofBeer s) ++ ", " ++ lowerCase s ++ " of beer."
+wall n = (ofBeer . capitalise) s ++ ", " ++ s ++ " of beer."
   where
     s = bottles n
 
 ofBeer :: String -> String
-ofBeer s = s ++ " of beer on the wall"
+ofBeer = (++ " of beer on the wall")
 
-lowerCase :: String -> String
-lowerCase = map toLower
+capitalise :: String -> String
+capitalise (x:xs) = toUpper x : xs
 
 bottles :: Int -> String
-bottles 0 = "No more bottles"
+bottles 0 = "no more bottles"
 bottles 1 = "1 bottle"
 bottles n = show n ++ " bottles"
 
 takeDown :: Int -> String
 takeDown n = "Take " ++ one n ++ " down and pass it around, " ++
-  ofBeer (lowerCase . bottles $ n - 1) ++ "."
+  (ofBeer . bottles $ n - 1) ++ "."
 
 one :: Int -> String
 one 1 = "it"
