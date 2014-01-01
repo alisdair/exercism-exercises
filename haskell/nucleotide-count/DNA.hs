@@ -3,15 +3,12 @@ module DNA (count, nucleotideCounts) where
 import qualified Data.Map.Strict as Map
 
 count :: Char -> String -> Int
-count 'A' s = length $ filter (== 'A') s
-count 'C' s = length $ filter (== 'C') s
-count 'T' s = length $ filter (== 'T') s
-count 'G' s = length $ filter (== 'G') s
-count 'U' s = length $ filter (== 'U') s
-count x _   = error $ "invalid nucleotide " ++ show x
+count n s
+  | elem n "ATCGU" = length $ filter (== n) s
+  | otherwise      = error $ "invalid nucleotide " ++ show n
 
 nucleotideCounts :: String -> Map.Map Char Int
-nucleotideCounts s = Map.fromList $ map nucleotideCount nucleotides
+nucleotideCounts s = Map.fromList $ map pairCount nucleotides
   where
+    pairCount c = (c, count c s)
     nucleotides = "ATCG"
-    nucleotideCount c = (c, count c s)
